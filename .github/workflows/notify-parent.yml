@@ -1,13 +1,15 @@
 name: Notify parent repo of update
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
 
 jobs:
   notify:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Send repository_dispatch to parent
         uses: peter-evans/repository-dispatch@v3
@@ -18,6 +20,6 @@ jobs:
           client-payload: >
             {
               "submodule_path": "workinhoo-api",
-              "commit_sha": "${{ github.sha }}",
+              "commit_sha": "${{ github.event.workflow_run.head_sha }}",
               "commit_message": ${{ toJSON(github.event.head_commit.message) }}
             }
