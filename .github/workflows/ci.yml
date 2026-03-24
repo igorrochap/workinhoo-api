@@ -65,7 +65,7 @@ jobs:
         run: composer install --no-interaction --prefer-dist --no-progress
 
       - name: Run PHPStan
-        run: ./vendor/bin/phpstan analyse --memory-limit=512M
+        run: ./vendor/bin/phpstan analyse --memory-limit=512M --error-format=github
 
   test:
     name: Tests (Pest)
@@ -99,4 +99,4 @@ jobs:
           php artisan key:generate
 
       - name: Run tests
-        run: composer test
+        run: ./vendor/bin/pest
