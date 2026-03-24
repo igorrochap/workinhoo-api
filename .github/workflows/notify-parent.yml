@@ -1,0 +1,23 @@
+name: Notify parent repo of update
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send repository_dispatch to parent
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.PARENT_REPO_PAT }}
+          repository: quokequack/workinhoo
+          event-type: submodule-update
+          client-payload: >
+            {
+              "submodule_path": "workinhoo-api",
+              "commit_sha": "${{ github.sha }}",
+              "commit_message": ${{ toJSON(github.event.head_commit.message) }}
+            }
