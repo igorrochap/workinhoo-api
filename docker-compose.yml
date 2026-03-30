@@ -1,0 +1,54 @@
+services:
+  app:
+    container_name: workinhoo_api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
+    restart: unless-stopped
+    volumes:
+      - .:/var/www
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - workinhoo-network
+
+  nginx:
+    container_name: workinhoo_nginx
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - workinhoo-network
+
+  db:
+    container_name: workinhoo_db
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-workinhoo} -d ${DB_DATABASE:-workinhoo}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - workinhoo-network
+
+volumes:
+  pgdata:
+
+networks:
+  workinhoo-network:
+    driver: bridge
