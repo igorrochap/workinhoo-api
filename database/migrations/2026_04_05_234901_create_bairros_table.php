@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('bairros', function (Blueprint $table) {
             $table->id();
-            $table->string("nome");
-            $table->foreignId("cidade_id")->constrained("cidades")->cascadeOnDelete();
-            $table->string("slug");
-            $table->decimal("latitude", 10, 8)->nullable();
-            $table->decimal("longitude", 11, 8)->nullable();
-            $table->boolean("ativo")->default(true);
+            $table->string('nome');
+            $table->foreignId('cidade_id')->constrained('cidades')->cascadeOnDelete();
+            $table->string('slug');
+            $table->decimal('latitude', 10, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable();
+            $table->boolean('ativo')->default(true);
             $table->timestamps();
         });
     }

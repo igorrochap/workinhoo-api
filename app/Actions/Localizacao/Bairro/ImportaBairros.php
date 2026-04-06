@@ -7,6 +7,7 @@ use App\Models\Localizacao\Bairro;
 use App\Models\Localizacao\Cidade;
 use App\Models\Localizacao\Estado;
 use App\Support\GeraSlug;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 final readonly class ImportaBairros
@@ -41,7 +42,7 @@ final readonly class ImportaBairros
         });
     }
 
-    private function parseCsv(string $path, \Illuminate\Support\Collection $cidades): array
+    private function parseCsv(string $path, Collection $cidades): array
     {
         $handle = fopen($path, 'r');
         fgetcsv($handle); // skip header row

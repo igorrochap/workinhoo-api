@@ -8,18 +8,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Bairro extends Model
 {
     public $fillable = [
-        "nome",
-        "cidade_id",
-        "slug",
-        "latitude",
-        "longitude",
-        "ativo"
+        'nome',
+        'cidade_id',
+        'slug',
+        'latitude',
+        'longitude',
+        'ativo',
     ];
 
     protected $casts = [
         'ativo' => 'boolean',
         'latitude' => 'float',
-        'longitude' => 'float'
+        'longitude' => 'float',
     ];
 
     public function cidade(): BelongsTo
