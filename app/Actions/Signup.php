@@ -4,7 +4,6 @@ namespace App\Actions;
 
 use App\Actions\Usuario\CriaUsuario;
 use App\DTO\SignupDTO;
-use App\DTO\Usuario\NovoUsuarioDTO;
 use App\Models\Usuario\Usuario;
 use Illuminate\Support\Facades\DB;
 

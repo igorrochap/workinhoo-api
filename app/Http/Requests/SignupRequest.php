@@ -30,7 +30,7 @@ class SignupRequest extends FormRequest
     public function messages(): array
     {
         return [
-            ...$this->mensagensUsuario()
+            ...$this->mensagensUsuario(),
         ];
     }
 
@@ -57,8 +57,7 @@ class SignupRequest extends FormRequest
             'usuario.foto.required' => 'A foto é obrigatória',
             'usuario.foto.image' => 'O foto deve ser uma imagem',
             'usuario.foto.mimes' => 'O foto deve ser uma imagem',
-            'usuario.is_prestador.required' => 'A sinalização se o usuário é prestador deve ser feita'
+            'usuario.is_prestador.required' => 'A sinalização se o usuário é prestador deve ser feita',
         ];
     }
-
 }

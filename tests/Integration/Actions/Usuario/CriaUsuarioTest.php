@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
-    Storage::fake("avatars");
-    $arquivo = New Arquivo();
+    Storage::fake('avatars');
+    $arquivo = new Arquivo;
 
     $foto = UploadedFile::fake()->image('avatar.jpg');
     $this->dto = new NovoUsuarioDTO('John Doe', 'johndoe@test.com', '123456', '(00) 00000-0000', $foto, false);
@@ -44,4 +44,3 @@ test('cria foto de perfil do usuário', function () {
 
     Storage::disk('avatars')->assertExists($usuario->path_foto);
 });
-
