@@ -18,8 +18,6 @@ final readonly class CriaUsuario
         $fotoID = UUID::cria();
         $pathFoto = $this->arquivo->persiste($dto->foto, '', "{$fotoID->recupera()}.webp", ['disk' => 'avatars']);
 
-        dump($pathFoto);
-
         return Usuario::query()->create([...$dto->toArray(), 'path_foto' => $pathFoto]);
     }
 }

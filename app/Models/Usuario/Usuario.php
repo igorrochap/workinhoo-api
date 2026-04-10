@@ -4,11 +4,14 @@ namespace App\Models\Usuario;
 
 use App\Support\ValueObjects\UUID;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 #[Hidden(['password', 'remember_token'])]
 class Usuario extends Authenticatable
 {
+    use HasFactory;
+
     protected $fillable = [
         'uuid',
         'nome',
