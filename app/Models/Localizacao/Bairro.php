@@ -2,11 +2,14 @@
 
 namespace App\Models\Localizacao;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Bairro extends Model
 {
+    use HasFactory;
+
     public $fillable = [
         'nome',
         'cidade_id',

@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Actions\Prestador\CriaPrestador;
 use App\Actions\Usuario\CriaUsuario;
 use App\DTO\SignupDTO;
 use App\Models\Usuario\Usuario;
@@ -11,6 +12,7 @@ final readonly class Signup
 {
     public function __construct(
         private CriaUsuario $criaUsuario,
+        private CriaPrestador $criaPrestador,
     ) {}
 
     public function executa(SignupDTO $dto): void
@@ -20,7 +22,14 @@ final readonly class Signup
         }
         DB::transaction(function () use ($dto) {
             $usuario = $this->criaUsuario->executa($dto->usuario);
-            // TODO: fluxo quando usuário é um prestador de serviços
+            $this->fluxoPrestador($usuario, $dto);
         });
+    }
+
+    private function fluxoPrestador(Usuario $usuario, SignupDTO $dto): void
+    {
+        if ($dto->usuario->isPrestador && $dto->prestador !== null) {
+            $this->criaPrestador->executa($dto->prestador, $usuario->id);
+        }
     }
 }

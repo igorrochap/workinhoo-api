@@ -39,6 +39,10 @@ class EstadoSeeder extends Seeder
             ['nome' => 'Tocantins', 'uf' => 'TO'],
         ];
 
+        if (Estado::query()->count() > 0) {
+            return;
+        }
+
         Estado::query()->insert($estados);
     }
 }
