@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources\Prestador;
 
+use App\Models\Prestador\Especialidade;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\Prestador\Especialidade */
+/** @mixin Especialidade */
 class ListaEspecialidadeResource extends JsonResource
 {
     /**
