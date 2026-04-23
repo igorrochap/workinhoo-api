@@ -34,6 +34,7 @@ class Usuario extends Authenticatable
     {
         return [
             'password' => 'hashed',
+            'is_prestador' => 'boolean',
         ];
     }
 
