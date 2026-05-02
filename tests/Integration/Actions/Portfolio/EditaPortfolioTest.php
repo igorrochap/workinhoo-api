@@ -23,8 +23,8 @@ beforeEach(function () {
 
     $this->portfolio = Portfolio::factory()->create([
         'prestador_id' => $this->prestador->id,
-        'descricao'    => 'Descrição antiga',
-        'midia_path'   => $path,
+        'descricao' => 'Descrição antiga',
+        'midia_path' => $path,
     ]);
 });
 

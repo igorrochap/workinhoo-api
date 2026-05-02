@@ -4,7 +4,6 @@ namespace App\Support\Storage;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use phpDocumentor\Reflection\PseudoTypes\ClassString;
 
 final readonly class Arquivo
 {

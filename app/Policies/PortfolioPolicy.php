@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Prestador\Portfolio;
 use App\Models\Usuario\Usuario;
-use Illuminate\Auth\Access\Response;
 
 class PortfolioPolicy
 {

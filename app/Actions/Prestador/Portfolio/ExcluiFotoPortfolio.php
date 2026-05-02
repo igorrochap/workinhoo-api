@@ -4,8 +4,6 @@ namespace App\Actions\Prestador\Portfolio;
 
 use App\Models\Prestador\Portfolio;
 use App\Support\Storage\Arquivo;
-use App\Support\ValueObjects\UUID;
-use Illuminate\Http\UploadedFile;
 
 final readonly class ExcluiFotoPortfolio
 {

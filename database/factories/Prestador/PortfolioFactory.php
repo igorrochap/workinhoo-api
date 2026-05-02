@@ -2,7 +2,6 @@
 
 namespace Database\Factories\Prestador;
 
-
 use App\Models\Prestador\Portfolio;
 use App\Models\Prestador\Prestador;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -18,8 +17,8 @@ class PortfolioFactory extends Factory
     {
         return [
             'prestador_id' => Prestador::factory(),
-            'descricao'    => fake()->sentence(),
-            'midia_path'   => null,
+            'descricao' => fake()->sentence(),
+            'midia_path' => null,
         ];
     }
 }

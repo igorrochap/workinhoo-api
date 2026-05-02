@@ -28,13 +28,13 @@ test('retorna portfolio por uuid', function () {
 
 test('retorna 404 para uuid valido mas inexistente', function () {
     $this->actingAs($this->usuario)
-        ->get("/api/portfolios/00000000-0000-0000-0000-000000000000")
+        ->get('/api/portfolios/00000000-0000-0000-0000-000000000000')
         ->assertNotFound();
 });
 
 test('retorna 405 para uuid com formato invalido', function () {
     $this->actingAs($this->usuario)
-        ->get("/api/portfolios/uuid-inexistente")
+        ->get('/api/portfolios/uuid-inexistente')
         ->assertMethodNotAllowed();
 });
 

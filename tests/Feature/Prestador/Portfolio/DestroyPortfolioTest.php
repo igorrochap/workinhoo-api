@@ -24,7 +24,7 @@ beforeEach(function () {
 
     $this->portfolio = Portfolio::factory()->create([
         'prestador_id' => $this->prestador->id,
-        'midia_path'   => $path,
+        'midia_path' => $path,
     ]);
 });
 

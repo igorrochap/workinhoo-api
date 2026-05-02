@@ -47,7 +47,6 @@ class PortfolioController extends Controller
         return $this->criado(PortfolioResource::make($action->executa($dto)));
     }
 
-
     /**
      * Update the specified resource in storage.
      */
@@ -68,6 +67,7 @@ class PortfolioController extends Controller
     public function updateFoto(Request $request, Portfolio $portfolio, EditaFotoPortfolio $action): JsonResponse
     {
         Gate::authorize('update', $portfolio);
+
         return $this->sucesso(PortfolioResource::make($action->executa($portfolio, $request->file('midia'))));
     }
 
@@ -85,6 +85,7 @@ class PortfolioController extends Controller
     public function destroyFoto(Portfolio $portfolio, ExcluiFotoPortfolio $action): JsonResponse
     {
         Gate::authorize('delete', $portfolio);
+
         return $this->sucesso(PortfolioResource::make($action->executa($portfolio)));
     }
 }

@@ -24,7 +24,7 @@ beforeEach(function () {
 
     $this->portfolio = Portfolio::factory()->create([
         'prestador_id' => $this->prestador->id,
-        'midia_path'   => $path,
+        'midia_path' => $path,
     ]);
 });
 
@@ -43,7 +43,7 @@ test('define midia_path como null apos excluir foto', function () {
         ->delete("/api/portfolios/{$this->portfolio->id}/foto");
 
     $this->assertDatabaseHas('portfolios_prestadores', [
-        'id'         => $this->portfolio->id,
+        'id' => $this->portfolio->id,
         'midia_path' => null,
     ]);
 });

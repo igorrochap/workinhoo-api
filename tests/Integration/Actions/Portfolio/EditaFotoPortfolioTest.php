@@ -2,7 +2,6 @@
 
 use App\Actions\Prestador\Portfolio\EditaFotoPortfolio;
 use App\Models\Prestador\Portfolio;
-use App\Models\Prestador\Prestador;
 use App\Support\Storage\Arquivo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;

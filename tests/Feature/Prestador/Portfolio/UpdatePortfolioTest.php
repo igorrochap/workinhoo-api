@@ -24,8 +24,8 @@ beforeEach(function () {
 
     $this->portfolio = Portfolio::factory()->create([
         'prestador_id' => $this->prestador->id,
-        'descricao'    => 'Descrição antiga',
-        'midia_path'   => $path,
+        'descricao' => 'Descrição antiga',
+        'midia_path' => $path,
     ]);
 });
 
@@ -38,7 +38,7 @@ test('edita descricao do portfolio', function () {
         ->assertJsonFragment(['descricao' => 'Nova descrição']);
 
     $this->assertDatabaseHas('portfolios_prestadores', [
-        'id'        => $this->portfolio->id,
+        'id' => $this->portfolio->id,
         'descricao' => 'Nova descrição',
     ]);
 });
@@ -49,7 +49,7 @@ test('edita midia do portfolio e remove arquivo antigo', function () {
     $this->actingAs($this->usuario)
         ->put("/api/portfolios/{$this->portfolio->id}", [
             'descricao' => 'Nova descrição',
-            'midia'     => UploadedFile::fake()->image('nova.jpg'),
+            'midia' => UploadedFile::fake()->image('nova.jpg'),
         ])
         ->assertOk();
 

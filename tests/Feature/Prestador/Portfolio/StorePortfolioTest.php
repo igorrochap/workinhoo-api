@@ -24,14 +24,14 @@ test('cria portfolio com dados validos', function () {
     $this->actingAs($this->usuario)
         ->post("/api/prestadores/{$this->prestador->id}/portfolios", [
             'descricao' => 'Meu trabalho',
-            'midia'     => UploadedFile::fake()->image('foto.jpg'),
+            'midia' => UploadedFile::fake()->image('foto.jpg'),
         ])
         ->assertCreated()
         ->assertJsonFragment(['descricao' => 'Meu trabalho']);
 
     $this->assertDatabaseHas('portfolios_prestadores', [
         'prestador_id' => $this->prestador->id,
-        'descricao'    => 'Meu trabalho',
+        'descricao' => 'Meu trabalho',
     ]);
 });
 
@@ -39,7 +39,7 @@ test('persiste arquivo no disco ao criar', function () {
     $this->actingAs($this->usuario)
         ->post("/api/prestadores/{$this->prestador->id}/portfolios", [
             'descricao' => 'Meu trabalho',
-            'midia'     => UploadedFile::fake()->image('foto.jpg'),
+            'midia' => UploadedFile::fake()->image('foto.jpg'),
         ]);
 
     $path = Portfolio::where('prestador_id', $this->prestador->id)->first()->midia_path;
@@ -50,7 +50,7 @@ test('retorna uuid do portfolio criado', function () {
     $response = $this->actingAs($this->usuario)
         ->post("/api/prestadores/{$this->prestador->id}/portfolios", [
             'descricao' => 'Meu trabalho',
-            'midia'     => UploadedFile::fake()->image('foto.jpg'),
+            'midia' => UploadedFile::fake()->image('foto.jpg'),
         ]);
 
     $response->assertCreated();

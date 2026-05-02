@@ -4,6 +4,7 @@ use App\Actions\Prestador\Portfolio\ExibePortfolio;
 use App\Models\Prestador\Portfolio;
 use App\Models\Prestador\Prestador;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -43,11 +44,11 @@ test('retorna portfolio por uuid', function () {
 
 test('lanca excecao para uuid inexistente', function () {
     $this->action->porUuid('uuid-inexistente');
-})->throws(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+})->throws(ModelNotFoundException::class);
 
 test('retorna portfolios ordenados do mais recente', function () {
     $primeiro = Portfolio::factory()->create(['prestador_id' => $this->prestador->id]);
-    $segundo  = Portfolio::factory()->create(['prestador_id' => $this->prestador->id]);
+    $segundo = Portfolio::factory()->create(['prestador_id' => $this->prestador->id]);
 
     $portfolios = $this->action->porPrestador($this->prestador);
 
