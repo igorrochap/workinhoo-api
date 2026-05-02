@@ -18,13 +18,12 @@ final readonly class EditaPortfolio
         $midiaPath = $portfolio->midia_path;
 
         if ($dto->midia) {
-            $this->arquivo->remove('', $portfolio->midia_path);
+            $this->arquivo->remove('', $midiaPath, 'portfolios');
 
             $midiaID = UUID::cria();
             $midiaPath = $this->arquivo->persiste($dto->midia, '', "{$midiaID->recupera()}.webp", ['disk' => 'portfolios']);
 
         }
-
 
         $portfolio->update([...$dto->toArray(), 'midia_path' => $midiaPath]);
 

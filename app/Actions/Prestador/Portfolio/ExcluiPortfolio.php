@@ -14,7 +14,7 @@ final readonly class ExcluiPortfolio
     public function executa(Portfolio $portfolio): void
     {
         if ($portfolio->midia_path) {
-            $this->arquivo->remove('', $portfolio->midia_path);
+            $this->arquivo->remove('', $portfolio->midia_path, 'portfolios');
         }
 
         $portfolio->delete();

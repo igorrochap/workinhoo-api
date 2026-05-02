@@ -2,7 +2,6 @@
 
 namespace App\Actions\Prestador\Portfolio;
 
-use App\DTO\Prestador\NovoPortfolioDTO;
 use App\Models\Prestador\Portfolio;
 use App\Support\Storage\Arquivo;
 use App\Support\ValueObjects\UUID;
@@ -17,7 +16,7 @@ final readonly class EditaFotoPortfolio
     public function executa(Portfolio $portfolio, UploadedFile $midia): Portfolio
     {
         // Remove o arquivo antigo
-        $this->arquivo->remove('', $portfolio->midia_path);
+        $this->arquivo->remove('', $portfolio->midia_path, 'portfolios');
 
         // Persiste o novo
         $midiaID = UUID::cria();

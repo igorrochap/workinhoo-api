@@ -13,10 +13,10 @@ final readonly class ExcluiFotoPortfolio
         private Arquivo $arquivo
     ) {}
 
-    public function executa(Portfolio $portfolio, UploadedFile $midia): Portfolio
+    public function executa(Portfolio $portfolio): Portfolio
     {
         // Remove o arquivo antigo
-        $this->arquivo->remove('', $portfolio->midia_path);
+        $this->arquivo->remove('', $portfolio->midia_path, 'portfolios');
 
         $portfolio->update(['midia_path' => null]);
 
