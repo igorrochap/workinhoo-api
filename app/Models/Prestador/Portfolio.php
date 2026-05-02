@@ -35,4 +35,11 @@ class Portfolio extends Model
     {
         return $this->belongsTo(Prestador::class, 'prestador_id');
     }
+
+    public function resolveRouteBinding($value, $field = null): ?self
+    {
+        return $this->where('id', $value)
+            ->orWhere('uuid', $value)
+            ->firstOrFail();
+    }
 }
