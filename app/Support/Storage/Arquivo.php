@@ -4,6 +4,7 @@ namespace App\Support\Storage;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\PseudoTypes\ClassString;
 
 final readonly class Arquivo
 {
@@ -12,8 +13,8 @@ final readonly class Arquivo
         return $arquivo->storeAs($path, $nome, $options);
     }
 
-    public function remove(string $path, string $nome): bool
+    public function remove(string $path, string $nome, ?string $disco = null): bool
     {
-        return Storage::delete("{$path}/{$nome}");
+        return Storage::disk($disco)->delete("{$path}/{$nome}");
     }
 }
