@@ -9,8 +9,9 @@ final readonly class ExibePortfolio
 {
     public function porPrestador(Prestador $prestador)
     {
-        return $prestador->portfolios()
-            ->orderByDesc('id')
+        return Portfolio::query()
+            ->where('prestador_id', $prestador->id)
+            ->orderBy('id', 'desc')
             ->get();
     }
 
