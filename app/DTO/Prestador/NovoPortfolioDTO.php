@@ -9,7 +9,7 @@ final readonly class NovoPortfolioDTO
     public function __construct(
         public int $prestadorID,
         public string $descricao,
-        public UploadedFile $midia, // midia_path será gerado pelo action
+        public ?UploadedFile $midia = null, // midia_path será gerado pelo action
     ) {}
 
     public function toArray(): array

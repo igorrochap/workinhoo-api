@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('portfolios_prestadores', function (Blueprint $table) {
             $table->id();
             $table->string('uuid', 36)->unique();
-            $table->foreignId('usuario_id')->constrained('usuarios')->cascadeOnDelete();
+            $table->foreignId('prestador_id')->constrained('prestadores')->cascadeOnDelete();
             $table->string('descricao');
-            $table->string('midia_path');
+            $table->string('midia_path')->nullable();
             $table->timestamps();
         });
     }
