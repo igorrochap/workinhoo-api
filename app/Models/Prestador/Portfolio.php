@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+// propriedade para phpstan
+/**
+ * @property \App\Models\Prestador\Prestador $prestador
+ */
 class Portfolio extends Model
 {
     use HasFactory;
