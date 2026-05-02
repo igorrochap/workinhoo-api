@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 // propriedade para phpstan
 /**
- * @property \App\Models\Prestador\Prestador $prestador
+ * @property Prestador $prestador
  */
 class Portfolio extends Model
 {
