@@ -15,10 +15,13 @@ beforeEach(function () {
     $this->arquivo = new Arquivo;
     $this->action = new EditaFotoPortfolio($this->arquivo);
 
-    $path = UploadedFile::fake()->image('antiga.jpg')
-        ->storeAs('', 'antiga.webp', ['disk' => 'portfolios']);
+    $this->portfolio = Portfolio::factory()->create();
 
-    $this->portfolio = Portfolio::factory()->create(['midia_path' => $path]);
+    $path = UploadedFile::fake()->image('antiga.jpg')
+        ->storeAs($this->portfolio->prestador->uuid, 'antiga.webp', ['disk' => 'portfolios']);
+
+    $this->portfolio->update(['midia_path' => $path]);
+    $this->portfolio->refresh();
 });
 
 test('substitui foto', function () {

@@ -25,10 +25,12 @@ test('exclui portfolio', function () {
 });
 
 test('exclui portfolio com midia e remove arquivo', function () {
-    $path = UploadedFile::fake()->image('foto.jpg')
-        ->storeAs('', 'foto.webp', ['disk' => 'portfolios']);
+    $portfolio = Portfolio::factory()->create();
 
-    $portfolio = Portfolio::factory()->create(['midia_path' => $path]);
+    $path = UploadedFile::fake()->image('foto.jpg')
+        ->storeAs($portfolio->prestador->uuid, 'foto.webp', ['disk' => 'portfolios']);
+
+    $portfolio->update(['midia_path' => $path]);
 
     $this->action->executa($portfolio);
 

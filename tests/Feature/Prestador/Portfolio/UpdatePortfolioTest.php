@@ -20,7 +20,7 @@ beforeEach(function () {
     $this->prestador = Prestador::factory()->for($this->usuario)->create();
 
     $path = UploadedFile::fake()->image('antiga.jpg')
-        ->storeAs("{$this->prestador->id}", 'antiga.webp', ['disk' => 'portfolios']);
+        ->storeAs("{$this->prestador->uuid}", 'antiga.webp', ['disk' => 'portfolios']);
 
     $this->portfolio = Portfolio::factory()->create([
         'prestador_id' => $this->prestador->id,
@@ -31,7 +31,7 @@ beforeEach(function () {
 
 test('edita descricao do portfolio', function () {
     $this->actingAs($this->usuario)
-        ->put("/api/portfolios/{$this->portfolio->id}", [
+        ->put("/api/portfolios/{$this->portfolio->uuid}", [
             'descricao' => 'Nova descrição',
         ])
         ->assertOk()
@@ -47,7 +47,7 @@ test('edita midia do portfolio e remove arquivo antigo', function () {
     $pathAntigo = $this->portfolio->midia_path;
 
     $this->actingAs($this->usuario)
-        ->put("/api/portfolios/{$this->portfolio->id}", [
+        ->put("/api/portfolios/{$this->portfolio->uuid}", [
             'descricao' => 'Nova descrição',
             'midia' => UploadedFile::fake()->image('nova.jpg'),
         ])
@@ -60,7 +60,7 @@ test('mantem midia quando nao envia nova', function () {
     $pathAntigo = $this->portfolio->midia_path;
 
     $this->actingAs($this->usuario)
-        ->put("/api/portfolios/{$this->portfolio->id}", [
+        ->put("/api/portfolios/{$this->portfolio->uuid}", [
             'descricao' => 'Nova descrição',
         ])
         ->assertOk();
@@ -74,12 +74,12 @@ test('nao permite editar portfolio de outro usuario', function () {
     $outroPortfolio = Portfolio::factory()->create(['prestador_id' => $outroPrestador->id]);
 
     $this->actingAs($this->usuario)
-        ->put("/api/portfolios/{$outroPortfolio->id}", ['descricao' => 'hack'])
+        ->put("/api/portfolios/{$outroPortfolio->uuid}", ['descricao' => 'hack'])
         ->assertForbidden();
 });
 
 test('retorna 401 sem autenticacao', function () {
-    $this->put("/api/portfolios/{$this->portfolio->id}", [
+    $this->put("/api/portfolios/{$this->portfolio->uuid}", [
         'descricao' => 'Nova descrição',
     ])->assertUnauthorized();
 });

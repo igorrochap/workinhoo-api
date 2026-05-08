@@ -20,7 +20,7 @@ beforeEach(function () {
 
 test('cria portfolio', function () {
     $dto = new NovoPortfolioDTO(
-        prestadorID: $this->prestador->id,
+        prestadorUUID: $this->prestador->uuid,
         descricao: 'Meu trabalho',
         midia: UploadedFile::fake()->image('foto.jpg'),
     );
@@ -32,7 +32,7 @@ test('cria portfolio', function () {
 
 test('cria portfolio com dados válidos', function () {
     $dto = new NovoPortfolioDTO(
-        prestadorID: $this->prestador->id,
+        prestadorUUID: $this->prestador->uuid,
         descricao: 'Meu trabalho',
         midia: UploadedFile::fake()->image('foto.jpg'),
     );
@@ -46,7 +46,7 @@ test('cria portfolio com dados válidos', function () {
 
 test('gera uuid automaticamente', function () {
     $dto = new NovoPortfolioDTO(
-        prestadorID: $this->prestador->id,
+        prestadorUUID: $this->prestador->uuid,
         descricao: 'Meu trabalho',
         midia: UploadedFile::fake()->image('foto.jpg'),
     );
@@ -58,7 +58,7 @@ test('gera uuid automaticamente', function () {
 
 test('persiste arquivo no disco', function () {
     $dto = new NovoPortfolioDTO(
-        prestadorID: $this->prestador->id,
+        prestadorUUID: $this->prestador->uuid,
         descricao: 'Meu trabalho',
         midia: UploadedFile::fake()->image('foto.jpg'),
     );

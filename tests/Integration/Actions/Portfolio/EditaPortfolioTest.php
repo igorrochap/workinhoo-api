@@ -19,7 +19,7 @@ beforeEach(function () {
     $this->action = new EditaPortfolio($this->arquivo);
 
     $path = UploadedFile::fake()->image('antiga.jpg')
-        ->storeAs('', 'antiga.webp', ['disk' => 'portfolios']);
+        ->storeAs($this->prestador->uuid, 'antiga.webp', ['disk' => 'portfolios']);
 
     $this->portfolio = Portfolio::factory()->create([
         'prestador_id' => $this->prestador->id,
@@ -30,7 +30,7 @@ beforeEach(function () {
 
 test('edita descricao sem nova midia', function () {
     $dto = new NovoPortfolioDTO(
-        prestadorID: $this->prestador->id,
+        prestadorUUID: $this->prestador->uuid,
         descricao: 'Nova descrição',
     );
 
@@ -44,7 +44,7 @@ test('edita midia e remove arquivo antigo', function () {
     $pathAntigo = $this->portfolio->midia_path;
 
     $dto = new NovoPortfolioDTO(
-        prestadorID: $this->prestador->id,
+        prestadorUUID: $this->prestador->uuid,
         descricao: 'Descrição antiga',
         midia: UploadedFile::fake()->image('nova.jpg'),
     );
@@ -58,7 +58,7 @@ test('edita midia e remove arquivo antigo', function () {
 
 test('edita descricao e midia simultaneamente', function () {
     $dto = new NovoPortfolioDTO(
-        prestadorID: $this->prestador->id,
+        prestadorUUID: $this->prestador->uuid,
         descricao: 'Descrição atualizada',
         midia: UploadedFile::fake()->image('nova.jpg'),
     );
@@ -74,7 +74,7 @@ test('mantem arquivo no disco quando nao envia nova midia', function () {
     $pathAntigo = $this->portfolio->midia_path;
 
     $dto = new NovoPortfolioDTO(
-        prestadorID: $this->prestador->id,
+        prestadorUUID: $this->prestador->uuid,
         descricao: 'Nova descrição',
     );
 

@@ -20,7 +20,7 @@ beforeEach(function () {
     $this->prestador = Prestador::factory()->for($this->usuario)->create();
 
     $path = UploadedFile::fake()->image('antiga.jpg')
-        ->storeAs("{$this->prestador->id}", 'antiga.webp', ['disk' => 'portfolios']);
+        ->storeAs("{$this->prestador->uuid}", 'antiga.webp', ['disk' => 'portfolios']);
 
     $this->portfolio = Portfolio::factory()->create([
         'prestador_id' => $this->prestador->id,
@@ -30,7 +30,7 @@ beforeEach(function () {
 
 test('atualiza foto do portfolio', function () {
     $this->actingAs($this->usuario)
-        ->patch("/api/portfolios/{$this->portfolio->id}/foto", [
+        ->patch("/api/portfolios/{$this->portfolio->uuid}/foto", [
             'midia' => UploadedFile::fake()->image('nova.jpg'),
         ])
         ->assertOk();
@@ -40,7 +40,7 @@ test('remove arquivo antigo ao atualizar foto', function () {
     $pathAntigo = $this->portfolio->midia_path;
 
     $this->actingAs($this->usuario)
-        ->patch("/api/portfolios/{$this->portfolio->id}/foto", [
+        ->patch("/api/portfolios/{$this->portfolio->uuid}/foto", [
             'midia' => UploadedFile::fake()->image('nova.jpg'),
         ]);
 
@@ -49,7 +49,7 @@ test('remove arquivo antigo ao atualizar foto', function () {
 
 test('persiste nova foto no disco', function () {
     $this->actingAs($this->usuario)
-        ->patch("/api/portfolios/{$this->portfolio->id}/foto", [
+        ->patch("/api/portfolios/{$this->portfolio->uuid}/foto", [
             'midia' => UploadedFile::fake()->image('nova.jpg'),
         ]);
 
@@ -63,7 +63,7 @@ test('nao permite atualizar foto de portfolio de outro usuario', function () {
     $outroPortfolio = Portfolio::factory()->create(['prestador_id' => $outroPrestador->id]);
 
     $this->actingAs($this->usuario)
-        ->patch("/api/portfolios/{$outroPortfolio->id}/foto", [
+        ->patch("/api/portfolios/{$outroPortfolio->uuid}/foto", [
             'midia' => UploadedFile::fake()->image('hack.jpg'),
         ])
         ->assertForbidden();
