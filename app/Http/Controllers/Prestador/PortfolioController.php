@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Prestador;
 use App\Actions\Prestador\Portfolio\CriaPortfolio;
 use App\Actions\Prestador\Portfolio\EditaFotoPortfolio;
 use App\Actions\Prestador\Portfolio\EditaPortfolio;
-use App\Actions\Prestador\Portfolio\ExcluiFotoPortfolio;
 use App\Actions\Prestador\Portfolio\ExcluiPortfolio;
 use App\Actions\Prestador\Portfolio\ExibePortfolio;
 use App\DTO\Prestador\NovoPortfolioDTO;
@@ -17,7 +16,6 @@ use App\Http\Resources\Prestador\PortfolioResource;
 use App\Models\Prestador\Portfolio;
 use App\Models\Prestador\Prestador;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class PortfolioController extends Controller
@@ -85,10 +83,4 @@ class PortfolioController extends Controller
         return $this->semConteudo();
     }
 
-    public function destroyFoto(Portfolio $portfolio, ExcluiFotoPortfolio $action): JsonResponse
-    {
-        Gate::authorize('delete', $portfolio);
-
-        return $this->sucesso(PortfolioResource::make($action->executa($portfolio)));
-    }
 }
