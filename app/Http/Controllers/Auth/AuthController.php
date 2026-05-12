@@ -36,4 +36,6 @@ class AuthController extends Controller
     {
         return $this->sucesso(new UsuarioAutenticadoResource($request->user()));
     }
+
+
 }

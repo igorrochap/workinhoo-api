@@ -27,6 +27,10 @@ DB_USERNAME=workinhoo
 DB_PASSWORD=secret
 ```
 
+Adicionar informacoes do servidor de email:
+
+Rodar php artisan queue:work
+
 > **Atenção:** o `DB_HOST` deve ser `workinhoo_db` ou o nome do serviço no Docker Compose, não `127.0.0.1`.
 
 ## Subindo o projeto
