@@ -31,6 +31,8 @@ services:
   db:
     container_name: workinhoo_db
     image: postgres:16-alpine
+    ports:
+      - "5432:5432"
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${DB_DATABASE}

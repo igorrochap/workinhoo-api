@@ -6,9 +6,10 @@ use App\Support\ValueObjects\UUID;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 #[Hidden(['password', 'remember_token'])]
-class Usuario extends Authenticatable
+class Usuario extends Authenticatable implements JWTSubject
 {
     use HasFactory;
 
@@ -20,6 +21,11 @@ class Usuario extends Authenticatable
         'contato',
         'path_foto',
         'is_prestador',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
     ];
 
     protected static function boot(): void
@@ -41,5 +47,18 @@ class Usuario extends Authenticatable
     public static function porEmail(string $email): ?Usuario
     {
         return self::query()->where('email', $email)->first();
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [
+            'email' => $this->email,
+            'nome' => $this->nome,
+        ];
     }
 }

@@ -15,14 +15,17 @@ final readonly class Signup
         private CriaPrestador $criaPrestador,
     ) {}
 
-    public function executa(SignupDTO $dto): void
+    public function executa(SignupDTO $dto): ?Usuario
     {
         if (! is_null(Usuario::porEmail($dto->usuario->email))) {
-            return;
+            return null;
         }
-        DB::transaction(function () use ($dto) {
+
+        return DB::transaction(function () use ($dto) {
             $usuario = $this->criaUsuario->executa($dto->usuario);
             $this->fluxoPrestador($usuario, $dto);
+
+            return $usuario;
         });
     }
 
