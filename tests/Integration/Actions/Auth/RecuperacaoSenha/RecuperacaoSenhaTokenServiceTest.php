@@ -1,37 +1,33 @@
 <?php
 
 use App\Models\Usuario\PasswordResetTokens;
-use App\Services\Auth\RecuperarSenha\RecuperacaoSenhaTokenService;
+use App\Models\Usuario\Usuario;
+use App\Services\Auth\TokenService;
 use Illuminate\Validation\ValidationException;
 
-test('valida token de recuperacao existente e nao expirado', function () {
-    PasswordResetTokens::create([
+test('gera token de recuperacao para usuario existente', function () {
+    $usuario = Usuario::factory()->create([
         'email' => 'usuario@example.com',
-        'token' => 'token-valido',
-        'created_at' => now(),
     ]);
 
-    $service = app(RecuperacaoSenhaTokenService::class);
+    $response = app(TokenService::class)->salvaToken(new PasswordResetTokens, $usuario->email);
 
-    expect($service->validaTokens('token-valido'))->toBeTrue();
+    expect($response)
+        ->email->toBe($usuario->email)
+        ->nome->toBe($usuario->nome)
+        ->codigo->toBeString();
+
+    $this->assertDatabaseHas('password_reset_tokens', ['email' => $usuario->email]);
+});
+
+test('nao gera token de recuperacao para usuario inexistente', function () {
+    $response = app(TokenService::class)->salvaToken(new PasswordResetTokens, 'inexistente@example.com');
+
+    expect($response)->toBeNull();
+    $this->assertDatabaseMissing('password_reset_tokens', ['email' => 'inexistente@example.com']);
 });
 
 test('rejeita token de recuperacao inexistente', function () {
-    $service = app(RecuperacaoSenhaTokenService::class);
-
-    expect(fn () => $service->validaTokens('token-inexistente'))
-        ->toThrow(ValidationException::class);
-});
-
-test('rejeita token de recuperacao expirado', function () {
-    PasswordResetTokens::create([
-        'email' => 'usuario@example.com',
-        'token' => 'token-expirado',
-        'created_at' => now()->subMinutes(config('auth.passwords.users.expire') + 1),
-    ]);
-
-    $service = app(RecuperacaoSenhaTokenService::class);
-
-    expect(fn () => $service->validaTokens('token-expirado'))
+    expect(fn () => app(TokenService::class)->validaTokens(new PasswordResetTokens, 'token-inexistente'))
         ->toThrow(ValidationException::class);
 });

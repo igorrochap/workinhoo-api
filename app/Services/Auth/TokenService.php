@@ -8,19 +8,19 @@ use App\Actions\Auth\ValidaUsuarioPorEmail;
 use App\Exceptions\TokenInvalidoException;
 use App\Models\Usuario\EmailVerificationToken;
 use App\Models\Usuario\PasswordResetTokens;
-use App\Models\Usuario\Usuario;
 use Illuminate\Database\Eloquent\Model;
 
 class TokenService
 {
-    public function __construct(private readonly SalvaToken            $salvaTokenAction,
-                                private readonly ValidaToken           $validaTokenAction,
-                                private readonly ValidaUsuarioPorEmail $validaUsuarioPorEmail){}
+    public function __construct(private readonly SalvaToken $salvaTokenAction,
+        private readonly ValidaToken $validaTokenAction,
+        private readonly ValidaUsuarioPorEmail $validaUsuarioPorEmail) {}
+
     public function salvaToken(Model $model, string $email)
     {
         $usuario = $this->validaUsuarioPorEmail->executa($email);
 
-        if(!$usuario){
+        if (! $usuario) {
             return null;
         }
 
@@ -32,9 +32,9 @@ class TokenService
 
     public function validaTokens(PasswordResetTokens|EmailVerificationToken $model, string $token): ?string
     {
-        $tokenVerificacao = $this->validaTokenAction->porToken($model, $token);
+        $tokenVerificacao = $this->validaTokenAction->executa($model, $token);
 
-        if (!$tokenVerificacao) {
+        if (! $tokenVerificacao) {
             throw TokenInvalidoException::exception();
         }
 

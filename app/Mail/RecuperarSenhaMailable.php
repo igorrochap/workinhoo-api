@@ -2,9 +2,7 @@
 
 namespace App\Mail;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Bus\Queueable;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -15,27 +13,25 @@ class RecuperarSenhaMailable extends Mailable
     use Queueable, SerializesModels;
 
     public function __construct(public readonly string $email,
-                                public readonly string $nome,
-                                public readonly string $codigo)
-    {}
+        public readonly string $nome,
+        public readonly string $codigo) {}
 
-    public function envelope() : Envelope
+    public function envelope(): Envelope
     {
         return new Envelope(
             subject: 'Recuperar senha no Workinhoo',
         );
     }
 
-    public function content() : Content
+    public function content(): Content
     {
         return new Content(
             view: 'emails.recuperar-senha'
         );
     }
 
-    public function attachments() : array
+    public function attachments(): array
     {
         return [];
     }
-
 }

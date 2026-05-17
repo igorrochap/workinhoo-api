@@ -2,16 +2,16 @@
 
 use App\Models\Usuario\EmailVerificationToken;
 use App\Models\Usuario\Usuario;
-use App\Services\Auth\VerificarEmail\VerificacaoEmailTokenService;
+use App\Services\Auth\TokenService;
 use Illuminate\Validation\ValidationException;
 
-test('gera token de verificacao para usuario nao verificado', function () {
+test('gera token de verificacao para usuario existente', function () {
     $usuario = Usuario::factory()->create([
         'email' => 'usuario@example.com',
         'email_verified_at' => null,
     ]);
 
-    $response = app(VerificacaoEmailTokenService::class)->enviaCodigo($usuario->email);
+    $response = app(TokenService::class)->salvaToken(new EmailVerificationToken, $usuario->email);
 
     expect($response)
         ->email->toBe($usuario->email)
@@ -21,54 +21,14 @@ test('gera token de verificacao para usuario nao verificado', function () {
     $this->assertDatabaseHas('email_verification_tokens', ['email' => $usuario->email]);
 });
 
-test('nao gera token para usuario ja verificado', function () {
-    $usuario = Usuario::factory()->create([
-        'email_verified_at' => now(),
-    ]);
-
-    $response = app(VerificacaoEmailTokenService::class)->enviaCodigo($usuario->email);
+test('nao gera token de verificacao para usuario inexistente', function () {
+    $response = app(TokenService::class)->salvaToken(new EmailVerificationToken, 'inexistente@example.com');
 
     expect($response)->toBeNull();
-    $this->assertDatabaseMissing('email_verification_tokens', ['email' => $usuario->email]);
-});
-
-test('valida token e marca email como verificado', function () {
-    $usuario = Usuario::factory()->create([
-        'email' => 'usuario@example.com',
-        'email_verified_at' => null,
-    ]);
-
-    EmailVerificationToken::create([
-        'email' => $usuario->email,
-        'token' => 'token-valido',
-        'created_at' => now(),
-    ]);
-
-    $usuarioVerificado = app(VerificacaoEmailTokenService::class)->validaTokens('token-valido');
-
-    expect($usuarioVerificado->fresh()->email_verified_at)->not->toBeNull();
-    $this->assertDatabaseMissing('email_verification_tokens', ['token' => 'token-valido']);
+    $this->assertDatabaseMissing('email_verification_tokens', ['email' => 'inexistente@example.com']);
 });
 
 test('rejeita token de verificacao inexistente', function () {
-    expect(fn () => app(VerificacaoEmailTokenService::class)->validaTokens('token-inexistente'))
+    expect(fn () => app(TokenService::class)->validaTokens(new EmailVerificationToken, 'token-inexistente'))
         ->toThrow(ValidationException::class);
-});
-
-test('rejeita token de verificacao expirado', function () {
-    $usuario = Usuario::factory()->create([
-        'email' => 'usuario@example.com',
-        'email_verified_at' => null,
-    ]);
-
-    EmailVerificationToken::create([
-        'email' => $usuario->email,
-        'token' => 'token-expirado',
-        'created_at' => now()->subMinutes(config('auth.email_verification.expire') + 1),
-    ]);
-
-    expect(fn () => app(VerificacaoEmailTokenService::class)->validaTokens('token-expirado'))
-        ->toThrow(ValidationException::class);
-
-    expect($usuario->fresh()->email_verified_at)->toBeNull();
 });

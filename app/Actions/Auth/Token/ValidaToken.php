@@ -9,13 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class ValidaToken
 {
-    public function __construct() {}
-
     public function executa(PasswordResetTokens|EmailVerificationToken $model, string $token): ?Model
     {
         $tokenExistente = $model->porToken($token);
 
-        if (!$tokenExistente) {
+        if (! $tokenExistente) {
             return null;
         }
 

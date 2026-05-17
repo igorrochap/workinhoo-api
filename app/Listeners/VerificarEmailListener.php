@@ -4,7 +4,6 @@ namespace App\Listeners;
 
 use App\Events\VerificarEmailEvent;
 use App\Mail\VerificarEmailMailable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
 class VerificarEmailListener

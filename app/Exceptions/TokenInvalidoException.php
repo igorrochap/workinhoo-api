@@ -7,11 +7,10 @@ use Illuminate\Validation\ValidationException;
 
 class TokenInvalidoException extends Exception
 {
-
-    public static function exception() : ValidationException
+    public static function exception(): ValidationException
     {
         return ValidationException::withMessages([
-            'token' => 'O token informado é inválido ou expirou.'
+            'token' => 'O token informado é inválido ou expirou.',
         ]);
     }
 }

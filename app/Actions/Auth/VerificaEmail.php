@@ -4,7 +4,6 @@ namespace App\Actions\Auth;
 
 use App\Models\Usuario\Usuario;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 
 class VerificaEmail
 {

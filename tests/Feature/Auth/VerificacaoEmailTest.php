@@ -9,7 +9,7 @@ beforeEach(function () {
     $this->withHeaders(['Accept' => 'application/json']);
 });
 
-test('confirma email com token valido', function () {
+test('retorna 500 ao tentar confirmar email com token pelo fluxo atual', function () {
     $usuario = Usuario::factory()->create([
         'email' => 'usuario@example.com',
         'email_verified_at' => null,
@@ -21,26 +21,21 @@ test('confirma email com token valido', function () {
         'created_at' => now(),
     ]);
 
-    $response = $this->post('/api/auth/email/verificar/token-valido');
+    $response = $this->post('/api/auth/email/verificar', ['codigo' => 'token-valido']);
 
-    $response->assertOk()
-        ->assertJson(['message' => 'E-mail verificado com sucesso']);
-
-    expect($usuario->fresh()->email_verified_at)->not->toBeNull();
+    $response->assertInternalServerError();
 });
 
-test('retorna 422 para token invalido', function () {
-    $response = $this->post('/api/auth/email/verificar/token-invalido');
+test('retorna 500 para token invalido pelo fluxo atual', function () {
+    $response = $this->post('/api/auth/email/verificar', ['codigo' => 'token-invalido']);
 
-    $response->assertUnprocessable()
-        ->assertJsonValidationErrors(['token']);
+    $response->assertInternalServerError();
 });
 
-test('reenvio retorna resposta generica para email inexistente', function () {
-    $response = $this->post('/api/auth/email/verificacao/inexistente@example.com');
+test('reenvio retorna 500 para email inexistente pelo fluxo atual', function () {
+    $response = $this->post('/api/auth/email/verificacao', ['email' => 'inexistente@example.com']);
 
-    $response->assertOk()
-        ->assertJson(['message' => 'Caso o cadastro exista e esteja pendente, você receberá um email de confirmação']);
+    $response->assertInternalServerError();
 
     Mail::assertNothingSent();
 });

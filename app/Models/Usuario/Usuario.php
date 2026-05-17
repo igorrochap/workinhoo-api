@@ -27,6 +27,7 @@ class Usuario extends Authenticatable implements JWTSubject
         'password',
         'remember_token',
     ];
+
     protected static function boot(): void
     {
         parent::boot();
@@ -57,7 +58,7 @@ class Usuario extends Authenticatable implements JWTSubject
     {
         return [
             'email' => $this->email,
-            'nome' => $this->nome
+            'nome' => $this->nome,
         ];
     }
 }
